@@ -1,0 +1,373 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A66BDF2A-4419-4D04-8CC1-EE8A0C6FAD3D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetworkSolutionsAccess</RootNamespace>
+    <AssemblyName>NetworkSolutionsAccess</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CuttingEdge.Conditions">
+      <HintPath>..\packages\CuttingEdge.Conditions.1.2.0.0\lib\NET35\CuttingEdge.Conditions.dll</HintPath>
+    </Reference>
+    <Reference Include="Netco">
+      <HintPath>..\packages\Netco.1.4.3\lib\net45\Netco.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text">
+      <HintPath>..\packages\ServiceStack.Text.4.0.30\lib\net40\ServiceStack.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="INetworkSolutionsAuthService.cs" />
+    <Compile Include="INetworkSolutionsOrdersService.cs" />
+    <Compile Include="INetworkSolutionsProductsService.cs" />
+    <Compile Include="Mapping\ConfigMapping.cs" />
+    <Compile Include="Mapping\OrderMapping.cs" />
+    <Compile Include="Mapping\ProductMapping.cs" />
+    <Compile Include="Misc\ActionPolicies.cs" />
+    <Compile Include="Misc\NetworkSolutionsLogger.cs" />
+    <Compile Include="Models\Configuration\NetworkSolutionsConfig.cs" />
+    <Compile Include="Models\Order\NetworkSolutionsOrder.cs" />
+    <Compile Include="Models\Product\NetworkSolutionsProduct.cs" />
+    <Compile Include="NetworkSolutionsAuthService.cs" />
+    <Compile Include="NetworkSolutionsFactory.cs" />
+    <Compile Include="NetworkSolutionsOrdersService.cs" />
+    <Compile Include="NetworkSolutionsProductsService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service References\NetworkSolutionsService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateAttributeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateAttributeResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateCategoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateCategoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateCustomerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateCustomerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateGiftCertificateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateGiftCertificateResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateManufacturerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateManufacturerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateOrderStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateOrderStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreatePriceLevelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreatePriceLevelResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateProductResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateProductResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateWarehouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.CreateWarehouseResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteAttributeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteAttributeResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteCategoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteCategoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteCustomerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteCustomerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteGiftCertificateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteGiftCertificateResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteManufacturerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteManufacturerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteOrderStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteOrderStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeletePriceLevelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeletePriceLevelResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteProductResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteProductResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteWarehouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.DeleteWarehouseResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.GetUserKeyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.GetUserKeyResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.GetUserTokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.GetUserTokenResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.PerformMultipleResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.PerformMultipleResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadAttributeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadAttributeResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadCategoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadCategoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadCustomerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadCustomerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadGiftCertificateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadGiftCertificateResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadManufacturerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadManufacturerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadOrderResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadOrderStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadOrderStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadPriceLevelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadPriceLevelResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadProductResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadProductResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadSiteSettingResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadSiteSettingResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadWarehouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.ReadWarehouseResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateAttributeResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateAttributeResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateCategoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateCategoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateCustomerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateCustomerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateGiftCertificateResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateGiftCertificateResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateInventoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateInventoryResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateManufacturerResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateManufacturerResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateOrderResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateOrderStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateOrderStatusResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdatePriceLevelResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdatePriceLevelResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateProductResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateProductResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateWarehouseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\NetworkSolutionsAccess.NetworkSolutionsService.UpdateWarehouseResponseType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\NetworkSolutionsService\SoapService.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\NetworkSolutionsService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\NetworkSolutionsService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\NetworkSolutionsService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\NetworkSolutionsService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
