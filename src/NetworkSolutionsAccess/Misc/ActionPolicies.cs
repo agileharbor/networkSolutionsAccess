@@ -8,7 +8,7 @@ namespace NetworkSolutionsAccess.Misc
 	public static class ActionPolicies
 	{
 #if DEBUG
-		private const int _retryCount = 0;
+		private const int _retryCount = 1;
 #else
 		private const int _retryCount = 10;
 #endif

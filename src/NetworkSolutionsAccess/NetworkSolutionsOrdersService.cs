@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CuttingEdge.Conditions;
 using NetworkSolutionsAccess.Mapping;
 using NetworkSolutionsAccess.Misc;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.Models.Order;
 using NetworkSolutionsAccess.NetworkSolutionsService;
-using ServiceStack;
 
 namespace NetworkSolutionsAccess
 {
@@ -27,17 +26,23 @@ namespace NetworkSolutionsAccess
 		public IEnumerable< NetworkSolutionsOrder > GetOrders()
 		{
 			var orderRequest = new ReadOrderRequestType() { };
+
+			NetworkSolutionsLogger.TraceRequest( "GetOrders", this._credentials, orderRequest );
 			var orders = ActionPolicies.Get.Get( () => this._client.ReadOrder( this._credentials, orderRequest ) );
-			orders.ToJson();
+			NetworkSolutionsLogger.TraceResponse( "GetOrders", this._credentials, orders );
 
 			return orders.OrderList.ToNsOrders().ToList();
 		}
 
-		public TResult Get<TResult>(Func<TResult> action)
+		public async Task< IEnumerable< NetworkSolutionsOrder > > GetOrdersAsync()
 		{
-			var result = ActionPolicies.Get.Get(action);
+			var orderRequest = new ReadOrderRequestType() { };
 
-			return result;
+			NetworkSolutionsLogger.TraceRequest( "GetOrdersAsync", this._credentials, orderRequest );
+			var orders = await ActionPolicies.GetAsync.Get( () => this._client.ReadOrderAsync( this._credentials, orderRequest ) );
+			NetworkSolutionsLogger.TraceResponse( "GetOrdersAsync", this._credentials, orders.ReadOrderResponse1 );
+
+			return orders.ReadOrderResponse1.OrderList.ToNsOrders().ToList();
 		}
 	}
 }

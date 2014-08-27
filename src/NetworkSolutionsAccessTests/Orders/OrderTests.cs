@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using LINQtoCSV;
 using NetworkSolutionsAccess;
@@ -29,6 +30,16 @@ namespace NetworkSolutionsAccessTests.Orders
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
 			var orders = service.GetOrders();
+
+			orders.Should().NotBeNull();
+			orders.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public async Task GetOrdersAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var orders = await service.GetOrdersAsync();
 
 			orders.Should().NotBeNull();
 			orders.Count().Should().BeGreaterThan( 0 );
