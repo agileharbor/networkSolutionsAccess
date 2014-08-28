@@ -12,9 +12,7 @@ namespace NetworkSolutionsAccess.Services
 			where TRequest : BaseRequestType
 		{
 			NetworkSolutionsLogger.TraceRequest( func.Method.Name, credentials, request );
-
 			var result = ActionPolicies.Get.Get( () => func( credentials, request ) );
-
 			NetworkSolutionsLogger.TraceResponse( func.Method.Name, credentials, result );
 
 			return result;
@@ -25,9 +23,29 @@ namespace NetworkSolutionsAccess.Services
 			where TRequest : BaseRequestType
 		{
 			NetworkSolutionsLogger.TraceRequest( func.Method.Name, credentials, request );
-
 			var result = await ActionPolicies.GetAsync.Get( () => func( credentials, request ) );
+			NetworkSolutionsLogger.TraceResponse( func.Method.Name, credentials, result );
 
+			return result;
+		}
+
+		public TResponse Submit< TCredentials, TRequest, TResponse >( Func< TCredentials, TRequest, TResponse > func, TCredentials credentials, TRequest request )
+			where TCredentials : SecurityCredentialType
+			where TRequest : BaseRequestType
+		{
+			NetworkSolutionsLogger.TraceRequest( func.Method.Name, credentials, request );
+			var result = ActionPolicies.Submit.Get( () => func( credentials, request ) );
+			NetworkSolutionsLogger.TraceResponse( func.Method.Name, credentials, result );
+
+			return result;
+		}
+
+		public async Task< TResponse > SubmitAsync< TCredentials, TRequest, TResponse >( Func< TCredentials, TRequest, Task< TResponse > > func, TCredentials credentials, TRequest request )
+			where TCredentials : SecurityCredentialType
+			where TRequest : BaseRequestType
+		{
+			NetworkSolutionsLogger.TraceRequest( func.Method.Name, credentials, request );
+			var result = await ActionPolicies.SubmitAsync.Get( () => func( credentials, request ) );
 			NetworkSolutionsLogger.TraceResponse( func.Method.Name, credentials, result );
 
 			return result;

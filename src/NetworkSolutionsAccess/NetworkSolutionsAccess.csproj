@@ -62,6 +62,7 @@
     <Compile Include="Misc\NetworkSolutionsLogger.cs" />
     <Compile Include="Models\Configuration\NetworkSolutionsAppConfig.cs" />
     <Compile Include="Models\Configuration\NetworkSolutionsConfig.cs" />
+    <Compile Include="Models\Product\NetworkSolutionsInventory.cs" />
     <Compile Include="NetworkSolutionsAuthService.cs" />
     <Compile Include="NetworkSolutionsFactory.cs" />
     <Compile Include="NetworkSolutionsBaseService.cs" />

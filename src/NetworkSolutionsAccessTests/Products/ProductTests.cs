@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using LINQtoCSV;
 using NetworkSolutionsAccess;
 using NetworkSolutionsAccess.Models.Configuration;
+using NetworkSolutionsAccess.Models.Product;
 using NUnit.Framework;
 
 namespace NetworkSolutionsAccessTests.Products
@@ -32,20 +34,88 @@ namespace NetworkSolutionsAccessTests.Products
 		public void GetProducts()
 		{
 			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
-			var products = service.GetProducts();
+			var result = service.GetProducts().ToList();
 
-			products.Should().NotBeNull();
-			products.Count().Should().BeGreaterThan( 0 );
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
 		}
 
 		[ Test ]
 		public async Task GetProductsAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
-			var products = await service.GetProductsAsync();
+			var result = ( await service.GetProductsAsync() ).ToList();
 
-			products.Should().NotBeNull();
-			products.Count().Should().BeGreaterThan( 0 );
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public void UpdateInventory()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var inventory = new NetworkSolutionsInventory
+			{
+				ProductId = 1,
+				QtyInStock = 10,
+				Adjustment = false
+			};
+			var result = service.UpdateInventory( inventory );
+
+			result.Should().NotBeNull();
+		}
+
+		[ Test ]
+		public async Task UpdateInventoryAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var inventory = new NetworkSolutionsInventory
+			{
+				ProductId = 1,
+				QtyInStock = 10,
+				Adjustment = false
+			};
+			var result = await service.UpdateInventoryAsync( inventory );
+
+			result.Should().NotBeNull();
+		}
+
+		[ Test ]
+		public void UpdateInventoryList()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var inventory = new List< NetworkSolutionsInventory >
+			{
+				new NetworkSolutionsInventory
+				{
+					ProductId = 1,
+					QtyInStock = 10,
+					Adjustment = false
+				}
+			};
+			var result = service.UpdateInventory( inventory ).ToList();
+
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public async Task UpdateInventoryAsyncList()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var inventory = new List< NetworkSolutionsInventory >
+			{
+				new NetworkSolutionsInventory
+				{
+					ProductId = 1,
+					QtyInStock = 10,
+					Adjustment = false
+				}
+			};
+			var result = ( await service.UpdateInventoryAsync( inventory ) ).ToList();
+
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
 		}
 	}
 }

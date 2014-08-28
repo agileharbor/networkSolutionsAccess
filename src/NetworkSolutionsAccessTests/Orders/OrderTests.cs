@@ -32,17 +32,17 @@ namespace NetworkSolutionsAccessTests.Orders
 		public void GetOrders()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
-			var orders = service.GetOrders();
+			var result = service.GetOrders().ToList();
 
-			orders.Should().NotBeNull();
-			orders.Count().Should().BeGreaterThan( 0 );
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
 		}
 
 		[ Test ]
 		public async Task GetOrdersAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
-			var orders = await service.GetOrdersAsync();
+			var orders = ( await service.GetOrdersAsync() ).ToList();
 
 			orders.Should().NotBeNull();
 			orders.Count().Should().BeGreaterThan( 0 );

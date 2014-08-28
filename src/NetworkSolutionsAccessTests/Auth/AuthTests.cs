@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using LINQtoCSV;
 using NetworkSolutionsAccess;
-using NetworkSolutionsAccess.Models.Configuration;
 using NUnit.Framework;
 
 namespace NetworkSolutionsAccessTests.Auth
@@ -11,7 +10,6 @@ namespace NetworkSolutionsAccessTests.Auth
 	public class AuthTests
 	{
 		private INetworkSolutionsFactory NetworkSolutionsFactory;
-		private NetworkSolutionsConfig Config;
 
 		[ SetUp ]
 		public void Init()
@@ -22,10 +20,7 @@ namespace NetworkSolutionsAccessTests.Auth
 			var testConfig = cc.Read< TestConfig >( credentialsFilePath, new CsvFileDescription { FirstLineHasColumnNames = true } ).FirstOrDefault();
 
 			if( testConfig != null )
-			{
 				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
-				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
-			}
 		}
 
 		[ Test ]
@@ -50,7 +45,7 @@ namespace NetworkSolutionsAccessTests.Auth
 		public void GetUserToken()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var orders = service.GetUserToken( "t3T7Pwc2FWd5s6S8" );
+			var orders = service.GetUserToken( "" );
 
 			orders.Should().NotBeNull();
 		}
@@ -59,7 +54,7 @@ namespace NetworkSolutionsAccessTests.Auth
 		public async Task GetUserTokenAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var orders = await service.GetUserTokenAsync( "t3T7Pwc2FWd5s6S8" );
+			var orders = await service.GetUserTokenAsync( "" );
 
 			orders.Should().NotBeNull();
 		}
