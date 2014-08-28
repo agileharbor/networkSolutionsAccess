@@ -10,6 +10,8 @@ namespace NetworkSolutionsAccess
 		protected readonly SecurityCredentialType _credentials;
 		protected readonly NetSolEcomServiceSoapClient _client;
 		internal readonly WebRequestServices _webRequestServices;
+		protected const decimal Version = 20.0M;
+		protected const int PageSize = 300;
 
 		protected NetworkSolutionsBaseService( NetworkSolutionsAppConfig appConfig )
 		{

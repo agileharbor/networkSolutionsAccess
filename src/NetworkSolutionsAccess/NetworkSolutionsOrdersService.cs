@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.NetworkSolutionsService;
@@ -14,16 +13,32 @@ namespace NetworkSolutionsAccess
 
 		public IEnumerable< OrderType > GetOrders()
 		{
-			var request = new ReadOrderRequestType();
-			var response = this._webRequestServices.Get( this._client.ReadOrder, this._credentials, request );
-			return response.OrderList != null ? response.OrderList.ToList() : new List< OrderType >();
+			var result = new List< OrderType >();
+			for( var i = 0; i < 99999; i++ )
+			{
+				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
+				var response = this._webRequestServices.Get( this._client.ReadOrder, this._credentials, request );
+				if( response.OrderList == null || response.OrderList.Length == 0 )
+					break;
+				result.AddRange( response.OrderList );
+			}
+
+			return result;
 		}
 
 		public async Task< IEnumerable< OrderType > > GetOrdersAsync()
 		{
-			var request = new ReadOrderRequestType();
-			var response = await this._webRequestServices.GetAsync( this._client.ReadOrderAsync, this._credentials, request );
-			return response.ReadOrderResponse1.OrderList != null ? response.ReadOrderResponse1.OrderList.ToList() : new List< OrderType >();
+			var result = new List< OrderType >();
+			for( var i = 0; i < 99999; i++ )
+			{
+				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
+				var response = await this._webRequestServices.GetAsync( this._client.ReadOrderAsync, this._credentials, request );
+				if( response.ReadOrderResponse1.OrderList == null || response.ReadOrderResponse1.OrderList.Length == 0 )
+					break;
+				result.AddRange( response.ReadOrderResponse1.OrderList );
+			}
+
+			return result;
 		}
 	}
 }

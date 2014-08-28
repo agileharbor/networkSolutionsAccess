@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.Models.Product;
@@ -15,22 +14,39 @@ namespace NetworkSolutionsAccess
 
 		public IEnumerable< ProductType > GetProducts()
 		{
-			var request = new ReadProductRequestType();
-			var response = this._webRequestServices.Get( this._client.ReadProduct, this._credentials, request );
-			return response.ProductList != null ? response.ProductList.ToList() : new List< ProductType >();
+			var result = new List< ProductType >();
+			for( var i = 0; i < 99999; i++ )
+			{
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
+				var response = this._webRequestServices.Get( this._client.ReadProduct, this._credentials, request );
+				if( response.ProductList == null || response.ProductList.Length == 0 )
+					break;
+				result.AddRange( response.ProductList );
+			}
+
+			return result;
 		}
 
 		public async Task< IEnumerable< ProductType > > GetProductsAsync()
 		{
-			var request = new ReadProductRequestType();
-			var response = await this._webRequestServices.GetAsync( this._client.ReadProductAsync, this._credentials, request );
-			return response.ReadProductResponse1.ProductList != null ? response.ReadProductResponse1.ProductList.ToList() : new List< ProductType >();
+			var result = new List< ProductType >();
+			for( var i = 0; i < 99999; i++ )
+			{
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
+				var response = await this._webRequestServices.GetAsync( this._client.ReadProductAsync, this._credentials, request );
+				if( response.ReadProductResponse1.ProductList == null || response.ReadProductResponse1.ProductList.Length == 0 )
+					break;
+				result.AddRange( response.ReadProductResponse1.ProductList );
+			}
+
+			return result;
 		}
 
 		public NetworkSolutionsInventory UpdateInventory( NetworkSolutionsInventory inventory )
 		{
 			var request = new UpdateInventoryRequestType
 			{
+				Version = Version,
 				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
 			};
 
@@ -50,6 +66,7 @@ namespace NetworkSolutionsAccess
 		{
 			var request = new UpdateInventoryRequestType
 			{
+				Version = Version,
 				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
 			};
 
