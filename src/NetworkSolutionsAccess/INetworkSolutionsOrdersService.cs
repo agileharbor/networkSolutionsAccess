@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using NetworkSolutionsAccess.Models.Order;
+using NetworkSolutionsAccess.NetworkSolutionsService;
 
 namespace NetworkSolutionsAccess
 {
 	public interface INetworkSolutionsOrdersService
 	{
-		IEnumerable< NetworkSolutionsOrder > GetOrders();
-		Task< IEnumerable< NetworkSolutionsOrder > > GetOrdersAsync();
+		IEnumerable< OrderType > GetOrders();
+		Task< IEnumerable< OrderType > > GetOrdersAsync();
 	}
 }

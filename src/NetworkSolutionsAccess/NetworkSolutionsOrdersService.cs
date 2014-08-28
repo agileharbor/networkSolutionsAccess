@@ -1,48 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using CuttingEdge.Conditions;
-using NetworkSolutionsAccess.Mapping;
-using NetworkSolutionsAccess.Misc;
 using NetworkSolutionsAccess.Models.Configuration;
-using NetworkSolutionsAccess.Models.Order;
 using NetworkSolutionsAccess.NetworkSolutionsService;
 
 namespace NetworkSolutionsAccess
 {
-	public class NetworkSolutionsOrdersService: INetworkSolutionsOrdersService
+	public class NetworkSolutionsOrdersService: NetworkSolutionsBaseService, INetworkSolutionsOrdersService
 	{
-		private readonly SecurityCredentialType _credentials;
-		private readonly NetSolEcomServiceSoapClient _client;
-
-		public NetworkSolutionsOrdersService( NetworkSolutionsConfig config )
+		public NetworkSolutionsOrdersService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config ): base( appConfig, config )
 		{
-			Condition.Requires( config, "config" ).IsNotNull();
-
-			this._credentials = config.ToSecurityCredentialType();
-			this._client = new NetSolEcomServiceSoapClient();
 		}
 
-		public IEnumerable< NetworkSolutionsOrder > GetOrders()
+		public IEnumerable< OrderType > GetOrders()
 		{
-			var orderRequest = new ReadOrderRequestType() { };
-
-			NetworkSolutionsLogger.TraceRequest( "GetOrders", this._credentials, orderRequest );
-			var orders = ActionPolicies.Get.Get( () => this._client.ReadOrder( this._credentials, orderRequest ) );
-			NetworkSolutionsLogger.TraceResponse( "GetOrders", this._credentials, orders );
-
-			return orders.OrderList.ToNsOrders().ToList();
+			var request = new ReadOrderRequestType();
+			var response = this._webRequestServices.Get( this._client.ReadOrder, this._credentials, request );
+			return response.OrderList;
 		}
 
-		public async Task< IEnumerable< NetworkSolutionsOrder > > GetOrdersAsync()
+		public async Task< IEnumerable< OrderType > > GetOrdersAsync()
 		{
-			var orderRequest = new ReadOrderRequestType() { };
-
-			NetworkSolutionsLogger.TraceRequest( "GetOrdersAsync", this._credentials, orderRequest );
-			var orders = await ActionPolicies.GetAsync.Get( () => this._client.ReadOrderAsync( this._credentials, orderRequest ) );
-			NetworkSolutionsLogger.TraceResponse( "GetOrdersAsync", this._credentials, orders.ReadOrderResponse1 );
-
-			return orders.ReadOrderResponse1.OrderList.ToNsOrders().ToList();
+			var request = new ReadOrderRequestType();
+			var response = await this._webRequestServices.GetAsync( this._client.ReadOrderAsync, this._credentials, request );
+			return response.ReadOrderResponse1.OrderList;
 		}
 	}
 }

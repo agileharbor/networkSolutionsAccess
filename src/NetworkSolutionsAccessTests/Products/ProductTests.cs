@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using LINQtoCSV;
 using NetworkSolutionsAccess;
@@ -9,7 +10,7 @@ namespace NetworkSolutionsAccessTests.Products
 {
 	public class ProductTests
 	{
-		private readonly INetworkSolutionsFactory NetworkSolutionsFactory = new NetworkSolutionsFactory();
+		private INetworkSolutionsFactory NetworkSolutionsFactory;
 		private NetworkSolutionsConfig Config;
 
 		[ SetUp ]
@@ -21,7 +22,10 @@ namespace NetworkSolutionsAccessTests.Products
 			var testConfig = cc.Read< TestConfig >( credentialsFilePath, new CsvFileDescription { FirstLineHasColumnNames = true } ).FirstOrDefault();
 
 			if( testConfig != null )
-				this.Config = new NetworkSolutionsConfig( testConfig.ApplicationName, testConfig.Certificate, testConfig.UserToken );
+			{
+				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
+				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
+			}
 		}
 
 		[ Test ]
@@ -29,6 +33,16 @@ namespace NetworkSolutionsAccessTests.Products
 		{
 			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
 			var products = service.GetProducts();
+
+			products.Should().NotBeNull();
+			products.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public async Task GetProductsAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var products = await service.GetProductsAsync();
 
 			products.Should().NotBeNull();
 			products.Count().Should().BeGreaterThan( 0 );

@@ -10,7 +10,7 @@ namespace NetworkSolutionsAccessTests.Orders
 {
 	public class OrderTests
 	{
-		private readonly INetworkSolutionsFactory NetworkSolutionsFactory = new NetworkSolutionsFactory();
+		private INetworkSolutionsFactory NetworkSolutionsFactory;
 		private NetworkSolutionsConfig Config;
 
 		[ SetUp ]
@@ -22,7 +22,10 @@ namespace NetworkSolutionsAccessTests.Orders
 			var testConfig = cc.Read< TestConfig >( credentialsFilePath, new CsvFileDescription { FirstLineHasColumnNames = true } ).FirstOrDefault();
 
 			if( testConfig != null )
-				this.Config = new NetworkSolutionsConfig( testConfig.ApplicationName, testConfig.Certificate, testConfig.UserToken );
+			{
+				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
+				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
+			}
 		}
 
 		[ Test ]

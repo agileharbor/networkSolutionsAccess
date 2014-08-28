@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using LINQtoCSV;
 using NetworkSolutionsAccess;
@@ -9,7 +10,7 @@ namespace NetworkSolutionsAccessTests.Auth
 {
 	public class AuthTests
 	{
-		private readonly INetworkSolutionsFactory NetworkSolutionsFactory = new NetworkSolutionsFactory();
+		private INetworkSolutionsFactory NetworkSolutionsFactory;
 		private NetworkSolutionsConfig Config;
 
 		[ SetUp ]
@@ -21,14 +22,26 @@ namespace NetworkSolutionsAccessTests.Auth
 			var testConfig = cc.Read< TestConfig >( credentialsFilePath, new CsvFileDescription { FirstLineHasColumnNames = true } ).FirstOrDefault();
 
 			if( testConfig != null )
-				this.Config = new NetworkSolutionsConfig( testConfig.ApplicationName, testConfig.Certificate, testConfig.UserToken );
+			{
+				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
+				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
+			}
 		}
 
 		[ Test ]
 		public void GetUserKey()
 		{
-			var service = this.NetworkSolutionsFactory.CreateAuthService( this.Config );
+			var service = this.NetworkSolutionsFactory.CreateAuthService();
 			var orders = service.GetUserKey();
+
+			orders.Should().NotBeNull();
+		}
+
+		[ Test ]
+		public async Task GetUserKeyAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateAuthService();
+			var orders = await service.GetUserKeyAsync();
 
 			orders.Should().NotBeNull();
 		}
@@ -36,8 +49,17 @@ namespace NetworkSolutionsAccessTests.Auth
 		[ Test ]
 		public void GetUserToken()
 		{
-			var service = this.NetworkSolutionsFactory.CreateAuthService( this.Config );
-			var orders = service.GetUserToken();
+			var service = this.NetworkSolutionsFactory.CreateAuthService();
+			var orders = service.GetUserToken( "t3T7Pwc2FWd5s6S8" );
+
+			orders.Should().NotBeNull();
+		}
+
+		[ Test ]
+		public async Task GetUserTokenAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateAuthService();
+			var orders = await service.GetUserTokenAsync( "t3T7Pwc2FWd5s6S8" );
 
 			orders.Should().NotBeNull();
 		}

@@ -1,35 +1,41 @@
-﻿using CuttingEdge.Conditions;
-using NetworkSolutionsAccess.Mapping;
+﻿using System.Threading.Tasks;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.NetworkSolutionsService;
 
 namespace NetworkSolutionsAccess
 {
-	public class NetworkSolutionsAuthService: INetworkSolutionsAuthService
+	public class NetworkSolutionsAuthService: NetworkSolutionsBaseService, INetworkSolutionsAuthService
 	{
-		private readonly SecurityCredentialType _credentials;
-		private readonly NetSolEcomServiceSoapClient _client;
-
-		public NetworkSolutionsAuthService( NetworkSolutionsConfig config )
+		public NetworkSolutionsAuthService( NetworkSolutionsAppConfig appConfig ): base( appConfig )
 		{
-			Condition.Requires( config, "config" ).IsNotNull();
-
-			this._credentials = config.ToSecurityCredentialType();
-			this._client = new NetSolEcomServiceSoapClient();
 		}
 
-		public string GetUserKey()
+		public UserKeyType GetUserKey()
 		{
-			var request = new GetUserKeyRequestType() { };
-			var userKey = this._client.GetUserKey( this._credentials, request );
-			return userKey.UserKey != null ? userKey.UserKey.UserKey : null;
+			var request = new GetUserKeyRequestType();
+			var response = this._webRequestServices.Get( this._client.GetUserKey, this._credentials, request );
+			return response.UserKey;
 		}
 
-		public string GetUserToken()
+		public async Task< UserKeyType > GetUserKeyAsync()
 		{
-			var request = new GetUserTokenRequestType() { };
-			var userToken = this._client.GetUserToken( this._credentials, request );
-			return userToken.UserToken != null ? userToken.UserToken.UserToken : null;
+			var request = new GetUserKeyRequestType();
+			var response = await this._webRequestServices.GetAsync( this._client.GetUserKeyAsync, this._credentials, request );
+			return response.GetUserKeyResponse1.UserKey;
+		}
+
+		public UserTokenType GetUserToken( string userKey )
+		{
+			var request = new GetUserTokenRequestType() { UserToken = new UserTokenType { UserKey = userKey } };
+			var response = this._webRequestServices.Get( this._client.GetUserToken, this._credentials, request );
+			return response.UserToken;
+		}
+
+		public async Task< UserTokenType > GetUserTokenAsync( string userKey )
+		{
+			var request = new GetUserTokenRequestType() { UserToken = new UserTokenType { UserKey = userKey } };
+			var response = await this._webRequestServices.GetAsync( this._client.GetUserTokenAsync, this._credentials, request );
+			return response.GetUserTokenResponse1.UserToken;
 		}
 	}
 }

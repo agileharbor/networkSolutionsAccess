@@ -53,21 +53,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Global\GlobalAssemblyInfo.cs">
-	  <Link>Properties\GlobalAssemblyInfo.cs</Link>
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="INetworkSolutionsAuthService.cs" />
     <Compile Include="INetworkSolutionsOrdersService.cs" />
     <Compile Include="INetworkSolutionsProductsService.cs" />
-    <Compile Include="Mapping\ConfigMapping.cs" />
-    <Compile Include="Mapping\OrderMapping.cs" />
-    <Compile Include="Mapping\ProductMapping.cs" />
     <Compile Include="Misc\ActionPolicies.cs" />
     <Compile Include="Misc\NetworkSolutionsLogger.cs" />
+    <Compile Include="Models\Configuration\NetworkSolutionsAppConfig.cs" />
     <Compile Include="Models\Configuration\NetworkSolutionsConfig.cs" />
-    <Compile Include="Models\Order\NetworkSolutionsOrder.cs" />
-    <Compile Include="Models\Product\NetworkSolutionsProduct.cs" />
     <Compile Include="NetworkSolutionsAuthService.cs" />
     <Compile Include="NetworkSolutionsFactory.cs" />
+    <Compile Include="NetworkSolutionsBaseService.cs" />
     <Compile Include="NetworkSolutionsOrdersService.cs" />
     <Compile Include="NetworkSolutionsProductsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +73,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Services\WebRequestServices.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -358,6 +356,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
