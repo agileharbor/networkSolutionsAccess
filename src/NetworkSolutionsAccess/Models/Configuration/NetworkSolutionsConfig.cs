@@ -4,13 +4,13 @@ namespace NetworkSolutionsAccess.Models.Configuration
 {
 	public sealed class NetworkSolutionsConfig
 	{
-		public string UserToken{ get; private set; }
+		public string UserKey{ get; private set; }
 
-		public NetworkSolutionsConfig( string userToken )
+		public NetworkSolutionsConfig( string userKey )
 		{
-			Condition.Requires( userToken, "userToken" ).IsNotNullOrWhiteSpace();
+			Condition.Requires( userKey, "userKey" ).IsNotNullOrWhiteSpace();
 
-			this.UserToken = userToken;
+			this.UserKey = userKey;
 		}
 	}
 }

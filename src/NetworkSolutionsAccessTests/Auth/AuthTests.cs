@@ -27,36 +27,36 @@ namespace NetworkSolutionsAccessTests.Auth
 		public void GetUserKey()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var orders = service.GetUserKey();
+			var result = service.GetUserKey();
 
-			orders.Should().NotBeNull();
+			result.Should().NotBeNull();
 		}
 
 		[ Test ]
 		public async Task GetUserKeyAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var orders = await service.GetUserKeyAsync();
+			var result = await service.GetUserKeyAsync();
 
-			orders.Should().NotBeNull();
+			result.Should().NotBeNull();
 		}
 
 		[ Test ]
 		public void GetUserToken()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var orders = service.GetUserToken( "" );
+			var result = service.GetUserToken( "" );
 
-			orders.Should().NotBeNull();
+			result.Should().NotBeNull();
 		}
 
 		[ Test ]
 		public async Task GetUserTokenAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var orders = await service.GetUserTokenAsync( "" );
+			var result = await service.GetUserTokenAsync( "" );
 
-			orders.Should().NotBeNull();
+			result.Should().NotBeNull();
 		}
 	}
 }

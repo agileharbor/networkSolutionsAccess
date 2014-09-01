@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NetworkSolutionsAccess.Misc;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.NetworkSolutionsService;
 
@@ -7,7 +8,7 @@ namespace NetworkSolutionsAccess
 {
 	public class NetworkSolutionsOrdersService: NetworkSolutionsBaseService, INetworkSolutionsOrdersService
 	{
-		public NetworkSolutionsOrdersService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config ): base( appConfig, config )
+		public NetworkSolutionsOrdersService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config, CacheManager cacheManager = null ): base( appConfig, config, cacheManager )
 		{
 		}
 
@@ -17,7 +18,7 @@ namespace NetworkSolutionsAccess
 			for( var i = 0; i < 99999; i++ )
 			{
 				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
-				var response = this._webRequestServices.Get( this._client.ReadOrder, this._credentials, request );
+				var response = this.WebRequestServices.Get( this.Client.ReadOrder, this.GetCredentials(), request );
 				if( response.OrderList == null || response.OrderList.Length == 0 )
 					break;
 				result.AddRange( response.OrderList );
@@ -32,7 +33,7 @@ namespace NetworkSolutionsAccess
 			for( var i = 0; i < 99999; i++ )
 			{
 				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
-				var response = await this._webRequestServices.GetAsync( this._client.ReadOrderAsync, this._credentials, request );
+				var response = await this.WebRequestServices.GetAsync( this.Client.ReadOrderAsync, this.GetCredentials(), request );
 				if( response.ReadOrderResponse1.OrderList == null || response.ReadOrderResponse1.OrderList.Length == 0 )
 					break;
 				result.AddRange( response.ReadOrderResponse1.OrderList );

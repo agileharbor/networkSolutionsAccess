@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using NetworkSolutionsAccess.Misc;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.Models.Product;
 using NetworkSolutionsAccess.NetworkSolutionsService;
@@ -8,7 +9,7 @@ namespace NetworkSolutionsAccess
 {
 	public class NetworkSolutionsProductsService: NetworkSolutionsBaseService, INetworkSolutionsProductsService
 	{
-		public NetworkSolutionsProductsService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config ): base( appConfig, config )
+		public NetworkSolutionsProductsService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config, CacheManager cacheManager = null ): base( appConfig, config, cacheManager )
 		{
 		}
 
@@ -18,7 +19,7 @@ namespace NetworkSolutionsAccess
 			for( var i = 0; i < 99999; i++ )
 			{
 				var request = new ReadProductRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
-				var response = this._webRequestServices.Get( this._client.ReadProduct, this._credentials, request );
+				var response = this.WebRequestServices.Get( this.Client.ReadProduct, this.GetCredentials(), request );
 				if( response.ProductList == null || response.ProductList.Length == 0 )
 					break;
 				result.AddRange( response.ProductList );
@@ -33,7 +34,7 @@ namespace NetworkSolutionsAccess
 			for( var i = 0; i < 99999; i++ )
 			{
 				var request = new ReadProductRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
-				var response = await this._webRequestServices.GetAsync( this._client.ReadProductAsync, this._credentials, request );
+				var response = await this.WebRequestServices.GetAsync( this.Client.ReadProductAsync, this.GetCredentials(), request );
 				if( response.ReadProductResponse1.ProductList == null || response.ReadProductResponse1.ProductList.Length == 0 )
 					break;
 				result.AddRange( response.ReadProductResponse1.ProductList );
@@ -50,7 +51,7 @@ namespace NetworkSolutionsAccess
 				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
 			};
 
-			var response = this._webRequestServices.Submit( this._client.UpdateInventory, this._credentials, request );
+			var response = this.WebRequestServices.Submit( this.Client.UpdateInventory, this.GetCredentials(), request );
 			if( response.Inventory == null )
 				return null;
 
@@ -70,7 +71,7 @@ namespace NetworkSolutionsAccess
 				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
 			};
 
-			var response = await this._webRequestServices.SubmitAsync( this._client.UpdateInventoryAsync, this._credentials, request );
+			var response = await this.WebRequestServices.SubmitAsync( this.Client.UpdateInventoryAsync, this.GetCredentials(), request );
 			if( response.UpdateInventoryResponse1.Inventory == null )
 				return null;
 

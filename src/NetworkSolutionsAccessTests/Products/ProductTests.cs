@@ -26,7 +26,7 @@ namespace NetworkSolutionsAccessTests.Products
 			if( testConfig != null )
 			{
 				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
-				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
+				this.Config = new NetworkSolutionsConfig( testConfig.UserKey );
 			}
 		}
 

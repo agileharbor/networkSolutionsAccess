@@ -1,13 +1,24 @@
 ﻿using System.Threading.Tasks;
+using CuttingEdge.Conditions;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.NetworkSolutionsService;
+using NetworkSolutionsAccess.Services;
 
 namespace NetworkSolutionsAccess
 {
-	public class NetworkSolutionsAuthService: NetworkSolutionsBaseService, INetworkSolutionsAuthService
+	public class NetworkSolutionsAuthService: INetworkSolutionsAuthService
 	{
-		public NetworkSolutionsAuthService( NetworkSolutionsAppConfig appConfig ): base( appConfig )
+		protected readonly SecurityCredentialType _credentials;
+		protected readonly NetSolEcomServiceSoapClient _client;
+		internal readonly WebRequestServices _webRequestServices;
+
+		public NetworkSolutionsAuthService( NetworkSolutionsAppConfig appConfig )
 		{
+			Condition.Requires( appConfig, "appConfig" ).IsNotNull();
+
+			this._credentials = new SecurityCredentialType { Application = appConfig.ApplicationName, Certificate = appConfig.Certificate };
+			this._client = new NetSolEcomServiceSoapClient();
+			this._webRequestServices = new WebRequestServices();
 		}
 
 		public UserKeyType GetUserKey()

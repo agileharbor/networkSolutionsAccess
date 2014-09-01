@@ -10,7 +10,7 @@ namespace NetworkSolutionsAccessTests
 		[ CsvColumn( Name = "Certificate", FieldIndex = 2 ) ]
 		public string Certificate{ get; set; }
 
-		[ CsvColumn( Name = "UserToken", FieldIndex = 3 ) ]
-		public string UserToken{ get; set; }
+		[ CsvColumn( Name = "UserKey", FieldIndex = 3 ) ]
+		public string UserKey{ get; set; }
 	}
 }

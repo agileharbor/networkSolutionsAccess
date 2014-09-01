@@ -23,8 +23,8 @@ namespace NetworkSolutionsAccessTests.Orders
 
 			if( testConfig != null )
 			{
-				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
-				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
+				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate, true );
+				this.Config = new NetworkSolutionsConfig( testConfig.UserKey );
 			}
 		}
 
@@ -42,10 +42,10 @@ namespace NetworkSolutionsAccessTests.Orders
 		public async Task GetOrdersAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
-			var orders = ( await service.GetOrdersAsync() ).ToList();
+			var result = ( await service.GetOrdersAsync() ).ToList();
 
-			orders.Should().NotBeNull();
-			orders.Count().Should().BeGreaterThan( 0 );
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
 		}
 	}
 }
