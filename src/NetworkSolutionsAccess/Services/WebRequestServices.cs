@@ -8,7 +8,7 @@ namespace NetworkSolutionsAccess.Services
 {
 	internal class WebRequestServices
 	{
-		private const int PageSize = 500;
+		private const int PageSize = 250;
 		private const decimal Version = 7.9M;
 		private readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
 
