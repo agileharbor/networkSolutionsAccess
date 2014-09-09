@@ -1,27 +1,40 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using CuttingEdge.Conditions;
 using NetworkSolutionsAccess.Models.Configuration;
 using NetworkSolutionsAccess.Models.Product;
 using NetworkSolutionsAccess.NetworkSolutionsService;
+using NetworkSolutionsAccess.Services;
 
 namespace NetworkSolutionsAccess
 {
-	public class NetworkSolutionsProductsService: NetworkSolutionsBaseService, INetworkSolutionsProductsService
+	public class NetworkSolutionsProductsService: INetworkSolutionsProductsService
 	{
-		public NetworkSolutionsProductsService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config ): base( appConfig, config )
+		protected readonly SecurityCredentialType Credentials;
+		protected readonly NetSolEcomServiceSoapClient Client;
+		internal readonly WebRequestServices WebRequestServices;
+
+		public NetworkSolutionsProductsService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config )
 		{
+			Condition.Requires( appConfig, "appConfig" ).IsNotNull();
+			Condition.Requires( config, "config" ).IsNotNull();
+
+			this.Credentials = new SecurityCredentialType { Application = appConfig.ApplicationName, Certificate = appConfig.Certificate, UserToken = config.UserToken };
+			this.Client = new NetSolEcomServiceSoapClient();
+			this.WebRequestServices = new WebRequestServices();
 		}
 
 		public IEnumerable< ProductType > GetProducts()
 		{
 			var result = new List< ProductType >();
-			for( var i = 0; i < 99999; i++ )
+			for( var i = 1; i < 99999; i++ )
 			{
-				var request = new ReadProductRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
-				var response = this.WebRequestServices.Get( this.Client.ReadProduct, this.Credentials, request );
-				if( response.ProductList == null || response.ProductList.Length == 0 )
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i } };
+				var response = this.WebRequestServices.GetPage( this.Client.ReadProduct, this.Credentials, request );
+				if( response.ProductList != null )
+					result.AddRange( response.ProductList );
+				if( !response.PageResponse.HasMore )
 					break;
-				result.AddRange( response.ProductList );
 			}
 
 			return result;
@@ -30,13 +43,14 @@ namespace NetworkSolutionsAccess
 		public async Task< IEnumerable< ProductType > > GetProductsAsync()
 		{
 			var result = new List< ProductType >();
-			for( var i = 0; i < 99999; i++ )
+			for( var i = 1; i < 99999; i++ )
 			{
-				var request = new ReadProductRequestType { PageRequest = new PaginationType { Size = PageSize, Page = i }, Version = Version, DetailSize = SizeCodeType.Large };
-				var response = await this.WebRequestServices.GetAsync( this.Client.ReadProductAsync, this.Credentials, request );
-				if( response.ReadProductResponse1.ProductList == null || response.ReadProductResponse1.ProductList.Length == 0 )
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i } };
+				var response = await this.WebRequestServices.GetPageAsync( this.Client.ReadProductAsync, this.Credentials, request );
+				if( response.ReadProductResponse1.ProductList != null )
+					result.AddRange( response.ReadProductResponse1.ProductList );
+				if( !response.ReadProductResponse1.PageResponse.HasMore )
 					break;
-				result.AddRange( response.ReadProductResponse1.ProductList );
 			}
 
 			return result;
@@ -46,7 +60,6 @@ namespace NetworkSolutionsAccess
 		{
 			var request = new UpdateInventoryRequestType
 			{
-				Version = Version,
 				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
 			};
 
@@ -66,7 +79,6 @@ namespace NetworkSolutionsAccess
 		{
 			var request = new UpdateInventoryRequestType
 			{
-				Version = Version,
 				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
 			};
 

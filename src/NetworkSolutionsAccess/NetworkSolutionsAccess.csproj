@@ -66,7 +66,6 @@
     <Compile Include="Models\Product\NetworkSolutionsInventory.cs" />
     <Compile Include="NetworkSolutionsAuthService.cs" />
     <Compile Include="NetworkSolutionsFactory.cs" />
-    <Compile Include="NetworkSolutionsBaseService.cs" />
     <Compile Include="NetworkSolutionsOrdersService.cs" />
     <Compile Include="NetworkSolutionsProductsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
