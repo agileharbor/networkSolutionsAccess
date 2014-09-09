@@ -60,7 +60,6 @@
     <Compile Include="INetworkSolutionsOrdersService.cs" />
     <Compile Include="INetworkSolutionsProductsService.cs" />
     <Compile Include="Misc\ActionPolicies.cs" />
-    <Compile Include="Misc\CacheManager.cs" />
     <Compile Include="Misc\NetworkSolutionsLogger.cs" />
     <Compile Include="Models\Configuration\NetworkSolutionsAppConfig.cs" />
     <Compile Include="Models\Configuration\NetworkSolutionsConfig.cs" />

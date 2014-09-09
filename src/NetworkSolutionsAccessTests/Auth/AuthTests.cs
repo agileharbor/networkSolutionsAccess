@@ -10,6 +10,7 @@ namespace NetworkSolutionsAccessTests.Auth
 	public class AuthTests
 	{
 		private INetworkSolutionsFactory NetworkSolutionsFactory;
+		private string UserKey;
 
 		[ SetUp ]
 		public void Init()
@@ -20,7 +21,10 @@ namespace NetworkSolutionsAccessTests.Auth
 			var testConfig = cc.Read< TestConfig >( credentialsFilePath, new CsvFileDescription { FirstLineHasColumnNames = true } ).FirstOrDefault();
 
 			if( testConfig != null )
+			{
+				this.UserKey = testConfig.UserKey;
 				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
+			}
 		}
 
 		[ Test ]
@@ -45,7 +49,7 @@ namespace NetworkSolutionsAccessTests.Auth
 		public void GetUserToken()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var result = service.GetUserToken( "" );
+			var result = service.GetUserToken( this.UserKey );
 
 			result.Should().NotBeNull();
 		}
@@ -54,7 +58,7 @@ namespace NetworkSolutionsAccessTests.Auth
 		public async Task GetUserTokenAsync()
 		{
 			var service = this.NetworkSolutionsFactory.CreateAuthService();
-			var result = await service.GetUserTokenAsync( "" );
+			var result = await service.GetUserTokenAsync( this.UserKey );
 
 			result.Should().NotBeNull();
 		}

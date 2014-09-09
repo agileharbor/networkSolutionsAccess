@@ -12,5 +12,8 @@ namespace NetworkSolutionsAccessTests
 
 		[ CsvColumn( Name = "UserKey", FieldIndex = 3 ) ]
 		public string UserKey{ get; set; }
+
+		[ CsvColumn( Name = "UserToken", FieldIndex = 4 ) ]
+		public string UserToken{ get; set; }
 	}
 }

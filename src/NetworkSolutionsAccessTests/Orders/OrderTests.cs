@@ -23,8 +23,8 @@ namespace NetworkSolutionsAccessTests.Orders
 
 			if( testConfig != null )
 			{
-				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate, true );
-				this.Config = new NetworkSolutionsConfig( testConfig.UserKey );
+				this.NetworkSolutionsFactory = new NetworkSolutionsFactory( testConfig.ApplicationName, testConfig.Certificate );
+				this.Config = new NetworkSolutionsConfig( testConfig.UserToken );
 			}
 		}
 
