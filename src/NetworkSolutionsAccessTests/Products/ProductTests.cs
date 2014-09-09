@@ -56,7 +56,7 @@ namespace NetworkSolutionsAccessTests.Products
 			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
 			var inventory = new NetworkSolutionsInventory
 			{
-				ProductId = 1,
+				ProductId = 13,
 				QtyInStock = 10,
 				Adjustment = false
 			};
@@ -71,7 +71,7 @@ namespace NetworkSolutionsAccessTests.Products
 			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
 			var inventory = new NetworkSolutionsInventory
 			{
-				ProductId = 1,
+				ProductId = 13,
 				QtyInStock = 10,
 				Adjustment = false
 			};
@@ -88,7 +88,7 @@ namespace NetworkSolutionsAccessTests.Products
 			{
 				new NetworkSolutionsInventory
 				{
-					ProductId = 1,
+					ProductId = 13,
 					QtyInStock = 10,
 					Adjustment = false
 				}
@@ -107,7 +107,7 @@ namespace NetworkSolutionsAccessTests.Products
 			{
 				new NetworkSolutionsInventory
 				{
-					ProductId = 1,
+					ProductId = 13,
 					QtyInStock = 10,
 					Adjustment = false
 				}

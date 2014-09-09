@@ -58,11 +58,7 @@ namespace NetworkSolutionsAccess
 
 		public NetworkSolutionsInventory UpdateInventory( NetworkSolutionsInventory inventory )
 		{
-			var request = new UpdateInventoryRequestType
-			{
-				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
-			};
-
+			var request = this.GetUpdateInventoryRequest( inventory );
 			var response = this.WebRequestServices.Submit( this.Client.UpdateInventory, this.Credentials, request );
 			if( response.Inventory == null )
 				return null;
@@ -77,11 +73,7 @@ namespace NetworkSolutionsAccess
 
 		public async Task< NetworkSolutionsInventory > UpdateInventoryAsync( NetworkSolutionsInventory inventory )
 		{
-			var request = new UpdateInventoryRequestType
-			{
-				Inventory = new InventoryType { ProductId = inventory.ProductId, QtyInStock = new ProductQuantityType { Value = inventory.QtyInStock, Adjustment = inventory.Adjustment } }
-			};
-
+			var request = this.GetUpdateInventoryRequest( inventory );
 			var response = await this.WebRequestServices.SubmitAsync( this.Client.UpdateInventoryAsync, this.Credentials, request );
 			if( response.UpdateInventoryResponse1.Inventory == null )
 				return null;
@@ -116,6 +108,24 @@ namespace NetworkSolutionsAccess
 					result.Add( response );
 			}
 			return result;
+		}
+
+		private UpdateInventoryRequestType GetUpdateInventoryRequest( NetworkSolutionsInventory inventory )
+		{
+			return new UpdateInventoryRequestType
+			{
+				Inventory = new InventoryType
+				{
+					ProductId = inventory.ProductId,
+					ProductIdSpecified = true,
+					QtyInStock = new ProductQuantityType
+					{
+						Value = inventory.QtyInStock,
+						Adjustment = inventory.Adjustment,
+						AdjustmentSpecified = true
+					}
+				}
+			};
 		}
 	}
 }
