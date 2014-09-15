@@ -120,6 +120,7 @@ namespace NetworkSolutionsAccess.Services
 			{
 				var logStr = string.Format( "Failed response for {0}\tApplication:{1}\tUserToken:{2}\nData: {3}", methodName, credentials.Application, credentials.UserToken, json );
 				NetworkSolutionsLogger.Log.Error( logStr );
+				throw new Exception( "Was received an error from Network Solutions. See logs for details" );
 			}
 		}
 	}

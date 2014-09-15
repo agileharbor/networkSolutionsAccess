@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using LINQtoCSV;
@@ -43,6 +44,26 @@ namespace NetworkSolutionsAccessTests.Orders
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
 			var result = ( await service.GetOrdersAsync() ).ToList();
+
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public void GetOrdersByDateRange()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var result = service.GetOrders( DateTime.UtcNow.AddHours( -2 ), DateTime.UtcNow ).ToList();
+
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public async Task GetOrdersAsyncByDateRange()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var result = ( await service.GetOrdersAsync( DateTime.UtcNow.AddHours( -2 ), DateTime.UtcNow ) ).ToList();
 
 			result.Should().NotBeNull();
 			result.Count().Should().BeGreaterThan( 0 );

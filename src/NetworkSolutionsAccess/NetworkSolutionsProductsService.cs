@@ -10,18 +10,18 @@ namespace NetworkSolutionsAccess
 {
 	public class NetworkSolutionsProductsService: INetworkSolutionsProductsService
 	{
-		protected readonly SecurityCredentialType Credentials;
-		protected readonly NetSolEcomServiceSoapClient Client;
-		internal readonly WebRequestServices WebRequestServices;
+		private readonly SecurityCredentialType _credentials;
+		private readonly NetSolEcomServiceSoapClient _client;
+		private readonly WebRequestServices _webRequestServices;
 
 		public NetworkSolutionsProductsService( NetworkSolutionsAppConfig appConfig, NetworkSolutionsConfig config )
 		{
 			Condition.Requires( appConfig, "appConfig" ).IsNotNull();
 			Condition.Requires( config, "config" ).IsNotNull();
 
-			this.Credentials = new SecurityCredentialType { Application = appConfig.ApplicationName, Certificate = appConfig.Certificate, UserToken = config.UserToken };
-			this.Client = new NetSolEcomServiceSoapClient();
-			this.WebRequestServices = new WebRequestServices();
+			this._credentials = new SecurityCredentialType { Application = appConfig.ApplicationName, Certificate = appConfig.Certificate, UserToken = config.UserToken };
+			this._client = new NetSolEcomServiceSoapClient();
+			this._webRequestServices = new WebRequestServices();
 		}
 
 		public IEnumerable< ProductType > GetProducts()
@@ -30,7 +30,7 @@ namespace NetworkSolutionsAccess
 			for( var i = 1; i < 99999; i++ )
 			{
 				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i } };
-				var response = this.WebRequestServices.GetPage( this.Client.ReadProduct, this.Credentials, request );
+				var response = this._webRequestServices.GetPage( this._client.ReadProduct, this._credentials, request );
 				if( response.ProductList != null )
 					result.AddRange( response.ProductList );
 				if( !response.PageResponse.HasMore )
@@ -46,7 +46,7 @@ namespace NetworkSolutionsAccess
 			for( var i = 1; i < 99999; i++ )
 			{
 				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i } };
-				var response = await this.WebRequestServices.GetPageAsync( this.Client.ReadProductAsync, this.Credentials, request );
+				var response = await this._webRequestServices.GetPageAsync( this._client.ReadProductAsync, this._credentials, request );
 				if( response.ReadProductResponse1.ProductList != null )
 					result.AddRange( response.ReadProductResponse1.ProductList );
 				if( !response.ReadProductResponse1.PageResponse.HasMore )
@@ -59,7 +59,7 @@ namespace NetworkSolutionsAccess
 		public NetworkSolutionsInventory UpdateInventory( NetworkSolutionsInventory inventory )
 		{
 			var request = this.GetUpdateInventoryRequest( inventory );
-			var response = this.WebRequestServices.Submit( this.Client.UpdateInventory, this.Credentials, request );
+			var response = this._webRequestServices.Submit( this._client.UpdateInventory, this._credentials, request );
 			if( response.Inventory == null )
 				return null;
 
@@ -74,7 +74,7 @@ namespace NetworkSolutionsAccess
 		public async Task< NetworkSolutionsInventory > UpdateInventoryAsync( NetworkSolutionsInventory inventory )
 		{
 			var request = this.GetUpdateInventoryRequest( inventory );
-			var response = await this.WebRequestServices.SubmitAsync( this.Client.UpdateInventoryAsync, this.Credentials, request );
+			var response = await this._webRequestServices.SubmitAsync( this._client.UpdateInventoryAsync, this._credentials, request );
 			if( response.UpdateInventoryResponse1.Inventory == null )
 				return null;
 
