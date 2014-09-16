@@ -64,7 +64,7 @@ namespace NetworkSolutionsAccessTests.Orders
 		public async Task GetOrdersAsyncByDateRange()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
-			var result = ( await service.GetOrdersAsync( DateTime.UtcNow.AddHours( -2 ), DateTime.UtcNow ) ).ToList();
+			var result = ( await service.GetOrdersAsync( new DateTime( 2014, 9, 16, 12, 7, 0 ), DateTime.UtcNow ) ).ToList();
 
 			result.Should().NotBeNull();
 			result.Count().Should().BeGreaterThan( 0 );

@@ -39,14 +39,14 @@ namespace NetworkSolutionsAccess
 			return result;
 		}
 
-		public IEnumerable< OrderType > GetOrders( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc )
+		public IEnumerable< OrderType > GetOrders( DateTime startDateUtc, DateTime endDateUtc )
 		{
 			var filter = this.GetOrdersFilter( startDateUtc, endDateUtc );
 			var result = this.GetOrdersBase( filter );
 			return result;
 		}
 
-		public async Task< IEnumerable< OrderType > > GetOrdersAsync( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc )
+		public async Task< IEnumerable< OrderType > > GetOrdersAsync( DateTime startDateUtc, DateTime endDateUtc )
 		{
 			var filter = this.GetOrdersFilter( startDateUtc, endDateUtc );
 			var result = await this.GetOrdersBaseAsync( filter );
@@ -98,8 +98,10 @@ namespace NetworkSolutionsAccess
 			return result;
 		}
 
-		private FilterType[] GetOrdersFilter( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc )
+		private FilterType[] GetOrdersFilter( DateTime startDateUtc, DateTime endDateUtc )
 		{
+			var startDate = new DateTimeOffset( startDateUtc, TimeSpan.Zero );
+			var endDate = new DateTimeOffset( endDateUtc, TimeSpan.Zero );
 			return new[]
 			{
 				new FilterType
@@ -107,7 +109,7 @@ namespace NetworkSolutionsAccess
 					Field = "CreateDate",
 					Operator = OperatorCodeType.Between,
 					OperatorSpecified = true,
-					ValueList = new[] { startDateUtc.ToString( this._culture ), endDateUtc.ToString( this._culture ) }
+					ValueList = new[] { startDate.ToString( this._culture ), endDate.ToString( this._culture ) }
 				},
 				new FilterType
 				{

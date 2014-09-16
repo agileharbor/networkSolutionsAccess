@@ -10,8 +10,8 @@ namespace NetworkSolutionsAccess
 		IEnumerable< OrderType > GetOrders();
 		Task< IEnumerable< OrderType > > GetOrdersAsync();
 
-		IEnumerable< OrderType > GetOrders( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc );
-		Task< IEnumerable< OrderType > > GetOrdersAsync( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc );
+		IEnumerable< OrderType > GetOrders( DateTime startDateUtc, DateTime endDateUtc );
+		Task< IEnumerable< OrderType > > GetOrdersAsync( DateTime startDateUtc, DateTime endDateUtc );
 
 		IEnumerable< OrderType > GetOrders( IEnumerable< string > orderNumbers );
 		Task< IEnumerable< OrderType > > GetOrdersAsync( IEnumerable< string > orderNumbers );
