@@ -26,10 +26,11 @@ namespace NetworkSolutionsAccess
 
 		public IEnumerable< ProductType > GetProducts()
 		{
+			var filter = this.GetProductsFilter();
 			var result = new List< ProductType >();
 			for( var i = 1; i < 99999; i++ )
 			{
-				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i } };
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
 				var response = this._webRequestServices.GetPage( this._client.ReadProduct, this._credentials, request );
 				if( response.ProductList != null )
 					result.AddRange( response.ProductList );
@@ -42,10 +43,11 @@ namespace NetworkSolutionsAccess
 
 		public async Task< IEnumerable< ProductType > > GetProductsAsync()
 		{
+			var filter = this.GetProductsFilter();
 			var result = new List< ProductType >();
 			for( var i = 1; i < 99999; i++ )
 			{
-				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i } };
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
 				var response = await this._webRequestServices.GetPageAsync( this._client.ReadProductAsync, this._credentials, request );
 				if( response.ReadProductResponse1.ProductList != null )
 					result.AddRange( response.ReadProductResponse1.ProductList );
@@ -108,6 +110,20 @@ namespace NetworkSolutionsAccess
 					result.Add( response );
 			}
 			return result;
+		}
+
+		private FilterType[] GetProductsFilter()
+		{
+			return new[]
+			{
+				new FilterType
+				{
+					Field = "PartNumber",
+					Operator = OperatorCodeType.NotEqual,
+					OperatorSpecified = true,
+					ValueList = new[] { string.Empty }
+				}
+			};
 		}
 
 		private UpdateInventoryRequestType GetUpdateInventoryRequest( NetworkSolutionsInventory inventory )
