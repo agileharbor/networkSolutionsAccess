@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using CuttingEdge.Conditions;
 using NetworkSolutionsAccess.Models.Configuration;
@@ -28,39 +29,46 @@ namespace NetworkSolutionsAccess
 
 		public IEnumerable< OrderType > GetOrders()
 		{
-			var result = new List< OrderType >();
-			for( var i = 1; i < 99999; i++ )
-			{
-				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Page = i } };
-				var response = this._webRequestServices.GetPage( this._client.ReadOrder, this._credentials, request );
-				if( response.OrderList != null )
-					result.AddRange( response.OrderList );
-				if( !response.PageResponse.HasMore )
-					break;
-			}
-
+			var result = this.GetOrdersBase( null );
 			return result;
 		}
 
 		public async Task< IEnumerable< OrderType > > GetOrdersAsync()
 		{
-			var result = new List< OrderType >();
-			for( var i = 1; i < 99999; i++ )
-			{
-				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Page = i } };
-				var response = await this._webRequestServices.GetPageAsync( this._client.ReadOrderAsync, this._credentials, request );
-				if( response.ReadOrderResponse1.OrderList != null )
-					result.AddRange( response.ReadOrderResponse1.OrderList );
-				if( !response.ReadOrderResponse1.PageResponse.HasMore )
-					break;
-			}
-
+			var result = await this.GetOrdersBaseAsync( null );
 			return result;
 		}
 
 		public IEnumerable< OrderType > GetOrders( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc )
 		{
 			var filter = this.GetOrdersFilter( startDateUtc, endDateUtc );
+			var result = this.GetOrdersBase( filter );
+			return result;
+		}
+
+		public async Task< IEnumerable< OrderType > > GetOrdersAsync( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc )
+		{
+			var filter = this.GetOrdersFilter( startDateUtc, endDateUtc );
+			var result = await this.GetOrdersBaseAsync( filter );
+			return result;
+		}
+
+		public IEnumerable< OrderType > GetOrders( IEnumerable< string > orderNumbers )
+		{
+			var filter = this.GetOrdersFilter( orderNumbers );
+			var result = this.GetOrdersBase( filter );
+			return result;
+		}
+
+		public async Task< IEnumerable< OrderType > > GetOrdersAsync( IEnumerable< string > orderNumbers )
+		{
+			var filter = this.GetOrdersFilter( orderNumbers );
+			var result = await this.GetOrdersBaseAsync( filter );
+			return result;
+		}
+
+		private IEnumerable< OrderType > GetOrdersBase( FilterType[] filter )
+		{
 			var result = new List< OrderType >();
 			for( var i = 1; i < 99999; i++ )
 			{
@@ -71,13 +79,11 @@ namespace NetworkSolutionsAccess
 				if( !response.PageResponse.HasMore )
 					break;
 			}
-
 			return result;
 		}
 
-		public async Task< IEnumerable< OrderType > > GetOrdersAsync( DateTimeOffset startDateUtc, DateTimeOffset endDateUtc )
+		private async Task< IEnumerable< OrderType > > GetOrdersBaseAsync( FilterType[] filter )
 		{
-			var filter = this.GetOrdersFilter( startDateUtc, endDateUtc );
 			var result = new List< OrderType >();
 			for( var i = 1; i < 99999; i++ )
 			{
@@ -102,6 +108,27 @@ namespace NetworkSolutionsAccess
 					Operator = OperatorCodeType.Between,
 					OperatorSpecified = true,
 					ValueList = new[] { startDateUtc.ToString( this._culture ), endDateUtc.ToString( this._culture ) }
+				},
+				new FilterType
+				{
+					Field = "OrderNumber",
+					Operator = OperatorCodeType.GreaterThan,
+					OperatorSpecified = true,
+					ValueList = new[] { 0.ToString( this._culture ) }
+				}
+			};
+		}
+
+		private FilterType[] GetOrdersFilter( IEnumerable< string > orderNumbers )
+		{
+			return new[]
+			{
+				new FilterType
+				{
+					Field = "OrderNumber",
+					Operator = OperatorCodeType.In,
+					OperatorSpecified = true,
+					ValueList = orderNumbers.ToArray()
 				}
 			};
 		}

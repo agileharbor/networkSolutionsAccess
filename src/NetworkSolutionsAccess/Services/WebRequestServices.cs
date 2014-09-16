@@ -9,7 +9,7 @@ namespace NetworkSolutionsAccess.Services
 	internal class WebRequestServices
 	{
 		private const int PageSize = 250;
-		private const decimal Version = 7.9M;
+		private const decimal Version = 8.10M;
 		private readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
 
 		public TResponse GetPage< TCredentials, TRequest, TResponse >( Func< TCredentials, TRequest, TResponse > func, TCredentials credentials, TRequest request )

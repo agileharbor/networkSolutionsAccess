@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -64,6 +65,28 @@ namespace NetworkSolutionsAccessTests.Orders
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
 			var result = ( await service.GetOrdersAsync( DateTime.UtcNow.AddHours( -2 ), DateTime.UtcNow ) ).ToList();
+
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public void GetOrdersByIds()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var ids = new List< string > { "1", "2", "4" };
+			var result = service.GetOrders( ids ).ToList();
+
+			result.Should().NotBeNull();
+			result.Count().Should().BeGreaterThan( 0 );
+		}
+
+		[ Test ]
+		public async Task GetOrdersAsyncByIds()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var ids = new List< string > { "1", "2", "4" };
+			var result = ( await service.GetOrdersAsync( ids ) ).ToList();
 
 			result.Should().NotBeNull();
 			result.Count().Should().BeGreaterThan( 0 );
