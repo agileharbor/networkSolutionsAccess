@@ -74,8 +74,8 @@ namespace NetworkSolutionsAccessTests.Orders
 		public void GetOrdersByIds()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
-			var ids = new List< string > { "1", "2", "4" };
-			var result = service.GetOrders( ids ).ToList();
+			var ids = new List< string > { "1", "2", "10" };
+			var result = service.GetOrdersExceptReceived( ids ).ToList();
 
 			result.Should().NotBeNull();
 			result.Count().Should().BeGreaterThan( 0 );
@@ -85,8 +85,8 @@ namespace NetworkSolutionsAccessTests.Orders
 		public async Task GetOrdersAsyncByIds()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
-			var ids = new List< string > { "1", "2", "4" };
-			var result = ( await service.GetOrdersAsync( ids ) ).ToList();
+			var ids = new List< string > { "1", "2", "10" };
+			var result = ( await service.GetOrdersExceptReceivedAsync( ids ) ).ToList();
 
 			result.Should().NotBeNull();
 			result.Count().Should().BeGreaterThan( 0 );

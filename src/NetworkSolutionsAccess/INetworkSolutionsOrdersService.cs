@@ -13,7 +13,7 @@ namespace NetworkSolutionsAccess
 		IEnumerable< OrderType > GetOrders( DateTime startDateUtc, DateTime endDateUtc );
 		Task< IEnumerable< OrderType > > GetOrdersAsync( DateTime startDateUtc, DateTime endDateUtc );
 
-		IEnumerable< OrderType > GetOrders( IEnumerable< string > orderNumbers );
-		Task< IEnumerable< OrderType > > GetOrdersAsync( IEnumerable< string > orderNumbers );
+		IEnumerable< OrderType > GetOrdersExceptReceived( IEnumerable< string > orderNumbers );
+		Task< IEnumerable< OrderType > > GetOrdersExceptReceivedAsync( IEnumerable< string > orderNumbers );
 	}
 }

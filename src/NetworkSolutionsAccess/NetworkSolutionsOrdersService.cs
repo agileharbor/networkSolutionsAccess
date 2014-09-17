@@ -53,16 +53,16 @@ namespace NetworkSolutionsAccess
 			return result;
 		}
 
-		public IEnumerable< OrderType > GetOrders( IEnumerable< string > orderNumbers )
+		public IEnumerable< OrderType > GetOrdersExceptReceived( IEnumerable< string > orderNumbers )
 		{
-			var filter = this.GetOrdersFilter( orderNumbers );
+			var filter = this.GetOrdersExceptReceivedFilter( orderNumbers );
 			var result = this.GetOrdersBase( filter );
 			return result;
 		}
 
-		public async Task< IEnumerable< OrderType > > GetOrdersAsync( IEnumerable< string > orderNumbers )
+		public async Task< IEnumerable< OrderType > > GetOrdersExceptReceivedAsync( IEnumerable< string > orderNumbers )
 		{
-			var filter = this.GetOrdersFilter( orderNumbers );
+			var filter = this.GetOrdersExceptReceivedFilter( orderNumbers );
 			var result = await this.GetOrdersBaseAsync( filter );
 			return result;
 		}
@@ -121,10 +121,17 @@ namespace NetworkSolutionsAccess
 			};
 		}
 
-		private FilterType[] GetOrdersFilter( IEnumerable< string > orderNumbers )
+		private FilterType[] GetOrdersExceptReceivedFilter( IEnumerable< string > orderNumbers )
 		{
 			return new[]
 			{
+				new FilterType
+				{
+					Field = "Status.OrderStatusId",
+					Operator = OperatorCodeType.NotEqual,
+					OperatorSpecified = true,
+					ValueList = new[] { "1" }
+				},
 				new FilterType
 				{
 					Field = "OrderNumber",
