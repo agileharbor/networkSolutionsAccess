@@ -51,6 +51,24 @@ namespace NetworkSolutionsAccessTests.Products
 		}
 
 		[ Test ]
+		public void IsProductsReceived()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var result = service.IsProductsReceived();
+
+			result.Should().BeTrue();
+		}
+
+		[ Test ]
+		public async Task IsProductsReceivedAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );
+			var result = await service.IsProductsReceivedAsync();
+
+			result.Should().BeTrue();
+		}
+
+		[ Test ]
 		public void UpdateInventory()
 		{
 			var service = this.NetworkSolutionsFactory.CreateProductsService( this.Config );

@@ -71,6 +71,24 @@ namespace NetworkSolutionsAccessTests.Orders
 		}
 
 		[ Test ]
+		public void IsOrdersReceived()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var result = service.IsOrdersReceived();
+
+			result.Should().BeTrue();
+		}
+
+		[ Test ]
+		public async Task IsOrdersReceivedAsync()
+		{
+			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );
+			var result = await service.IsOrdersReceivedAsync();
+
+			result.Should().BeTrue();
+		}
+
+		[ Test ]
 		public void GetOrdersByIds()
 		{
 			var service = this.NetworkSolutionsFactory.CreateOrdersService( this.Config );

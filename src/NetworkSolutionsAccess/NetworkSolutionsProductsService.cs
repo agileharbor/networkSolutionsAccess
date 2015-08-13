@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CuttingEdge.Conditions;
 using NetworkSolutionsAccess.Models.Configuration;
@@ -24,38 +25,40 @@ namespace NetworkSolutionsAccess
 			this._webRequestServices = new WebRequestServices();
 		}
 
+		public bool IsProductsReceived()
+		{
+			try
+			{
+				var result = this.GetProductsBase( true );
+				return true;
+			}
+			catch( Exception ex )
+			{
+				return false;
+			}
+		}
+
+		public async Task< bool > IsProductsReceivedAsync()
+		{
+			try
+			{
+				var result = await this.GetProductsBaseAsync( true );
+				return true;
+			}
+			catch( Exception ex )
+			{
+				return false;
+			}
+		}
+
 		public IEnumerable< ProductType > GetProducts()
 		{
-			var filter = this.GetProductsFilter();
-			var result = new List< ProductType >();
-			for( var i = 1; i < 99999; i++ )
-			{
-				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
-				var response = this._webRequestServices.GetPage( this._client.ReadProduct, this._credentials, request );
-				if( response.ProductList != null )
-					result.AddRange( response.ProductList );
-				if( !response.PageResponse.HasMore )
-					break;
-			}
-
-			return result;
+			return this.GetProductsBase();
 		}
 
 		public async Task< IEnumerable< ProductType > > GetProductsAsync()
 		{
-			var filter = this.GetProductsFilter();
-			var result = new List< ProductType >();
-			for( var i = 1; i < 99999; i++ )
-			{
-				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
-				var response = await this._webRequestServices.GetPageAsync( this._client.ReadProductAsync, this._credentials, request );
-				if( response.ReadProductResponse1.ProductList != null )
-					result.AddRange( response.ReadProductResponse1.ProductList );
-				if( !response.ReadProductResponse1.PageResponse.HasMore )
-					break;
-			}
-
-			return result;
+			return await this.GetProductsBaseAsync();
 		}
 
 		public NetworkSolutionsInventory UpdateInventory( NetworkSolutionsInventory inventory )
@@ -142,6 +145,42 @@ namespace NetworkSolutionsAccess
 					}
 				}
 			};
+		}
+
+		private IEnumerable< ProductType > GetProductsBase( bool getOnlyOnePage = false )
+		{
+			var count = getOnlyOnePage ? 2 : 99999;
+			var filter = this.GetProductsFilter();
+			var result = new List< ProductType >();
+			for( var i = 1; i < count; i++ )
+			{
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
+				var response = this._webRequestServices.GetPage( this._client.ReadProduct, this._credentials, request );
+				if( response.ProductList != null )
+					result.AddRange( response.ProductList );
+				if( !response.PageResponse.HasMore )
+					break;
+			}
+
+			return result;
+		}
+
+		private async Task< IEnumerable< ProductType > > GetProductsBaseAsync( bool getOnlyOnePage = false )
+		{
+			var count = getOnlyOnePage ? 2 : 99999;
+			var filter = this.GetProductsFilter();
+			var result = new List< ProductType >();
+			for( var i = 1; i < count; i++ )
+			{
+				var request = new ReadProductRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
+				var response = await this._webRequestServices.GetPageAsync( this._client.ReadProductAsync, this._credentials, request );
+				if( response.ReadProductResponse1.ProductList != null )
+					result.AddRange( response.ReadProductResponse1.ProductList );
+				if( !response.ReadProductResponse1.PageResponse.HasMore )
+					break;
+			}
+
+			return result;
 		}
 	}
 }

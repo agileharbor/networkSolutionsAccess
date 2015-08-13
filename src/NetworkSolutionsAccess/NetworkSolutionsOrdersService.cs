@@ -67,10 +67,37 @@ namespace NetworkSolutionsAccess
 			return result;
 		}
 
-		private IEnumerable< OrderType > GetOrdersBase( FilterType[] filter )
+		public bool IsOrdersReceived()
 		{
+			try
+			{
+				var result = this.GetOrdersBase( null, true );
+				return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
+
+		public async Task<bool> IsOrdersReceivedAsync()
+		{
+			try
+			{
+				var result = await this.GetOrdersBaseAsync(null, true);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
+
+		private IEnumerable< OrderType > GetOrdersBase( FilterType[] filter, bool getOnlyOnePage = false )
+		{
+			var count = getOnlyOnePage ? 2 : 99999;
 			var result = new List< OrderType >();
-			for( var i = 1; i < 99999; i++ )
+			for (var i = 1; i < count; i++)
 			{
 				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
 				var response = this._webRequestServices.GetPage( this._client.ReadOrder, this._credentials, request );
@@ -82,10 +109,11 @@ namespace NetworkSolutionsAccess
 			return result;
 		}
 
-		private async Task< IEnumerable< OrderType > > GetOrdersBaseAsync( FilterType[] filter )
+		private async Task< IEnumerable< OrderType > > GetOrdersBaseAsync( FilterType[] filter, bool getOnlyOnePage = false )
 		{
+			var count = getOnlyOnePage ? 2 : 99999;
 			var result = new List< OrderType >();
-			for( var i = 1; i < 99999; i++ )
+			for( var i = 1; i < count; i++ )
 			{
 				var request = new ReadOrderRequestType { PageRequest = new PaginationType { Page = i }, FilterList = filter };
 				var response = await this._webRequestServices.GetPageAsync( this._client.ReadOrderAsync, this._credentials, request );

@@ -10,7 +10,7 @@ namespace NetworkSolutionsAccess.Services
 	{
 		private const int PageSize = 250;
 		private const decimal Version = 8.10M;
-		private readonly JavaScriptSerializer Serializer = new JavaScriptSerializer();
+		private readonly JavaScriptSerializer Serializer = new JavaScriptSerializer() { MaxJsonLength = int.MaxValue };
 
 		public TResponse GetPage< TCredentials, TRequest, TResponse >( Func< TCredentials, TRequest, TResponse > func, TCredentials credentials, TRequest request, bool skipErrors = false )
 			where TCredentials : SecurityCredentialType
@@ -35,7 +35,7 @@ namespace NetworkSolutionsAccess.Services
 			where TRequest : BaseRequestType
 		{
 			this.UpdateRequest( request );
-
+			
 			this.LogRequest( func.Method.Name, credentials, request );
 			var result = ActionPolicies.Get.Get( () => func( credentials, request ) );
 			this.LogResponse( func.Method.Name, credentials, result, skipErrors );

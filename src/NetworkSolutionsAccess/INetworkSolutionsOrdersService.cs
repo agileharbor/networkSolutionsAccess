@@ -15,5 +15,7 @@ namespace NetworkSolutionsAccess
 
 		IEnumerable< OrderType > GetOrdersExceptReceived( IEnumerable< string > orderNumbers );
 		Task< IEnumerable< OrderType > > GetOrdersExceptReceivedAsync( IEnumerable< string > orderNumbers );
+		bool IsOrdersReceived();
+		Task< bool > IsOrdersReceivedAsync();
 	}
 }

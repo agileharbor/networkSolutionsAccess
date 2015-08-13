@@ -13,5 +13,7 @@ namespace NetworkSolutionsAccess
 		Task< NetworkSolutionsInventory > UpdateInventoryAsync( NetworkSolutionsInventory inventory );
 		IEnumerable< NetworkSolutionsInventory > UpdateInventory( IEnumerable< NetworkSolutionsInventory > inventory );
 		Task< IEnumerable< NetworkSolutionsInventory > > UpdateInventoryAsync( IEnumerable< NetworkSolutionsInventory > inventory );
+		bool IsProductsReceived();
+		Task< bool > IsProductsReceivedAsync();
 	}
 }
