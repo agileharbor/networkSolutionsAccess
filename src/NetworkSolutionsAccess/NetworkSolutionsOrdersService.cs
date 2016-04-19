@@ -24,6 +24,10 @@ namespace NetworkSolutionsAccess
 
 			this._credentials = new SecurityCredentialType { Application = appConfig.ApplicationName, Certificate = appConfig.Certificate, UserToken = config.UserToken };
 			this._client = new NetSolEcomServiceSoapClient();
+			this._client.Endpoint.Binding.OpenTimeout = new TimeSpan( 0, 3, 0 );
+			this._client.Endpoint.Binding.CloseTimeout = new TimeSpan( 0, 3, 0 );
+			this._client.Endpoint.Binding.SendTimeout = new TimeSpan( 0, 3, 0 );
+
 			this._webRequestServices = new WebRequestServices();
 		}
 
