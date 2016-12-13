@@ -50,7 +50,7 @@ namespace NetworkSolutionsAccess.Services
 			this.UpdateRequest( request );
 
 			this.LogRequest( func.Method.Name, credentials, request );
-			var result = await ActionPolicies.GetAsync.Get( () => func( credentials, request ) );
+			var result = await ActionPolicies.GetAsync.Get( async () => await func( credentials, request ) );
 			this.LogResponse( func.Method.Name, credentials, result, skipErrors );
 
 			return result;
@@ -76,7 +76,7 @@ namespace NetworkSolutionsAccess.Services
 			this.UpdateRequest( request );
 
 			this.LogRequest( func.Method.Name, credentials, request );
-			var result = await ActionPolicies.SubmitAsync.Get( () => func( credentials, request ) );
+			var result = await ActionPolicies.SubmitAsync.Get( async () => await func( credentials, request ) );
 			this.LogResponse( func.Method.Name, credentials, result, skipErrors );
 
 			return result;
